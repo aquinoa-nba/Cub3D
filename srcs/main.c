@@ -14,6 +14,7 @@
 #include "../includes/cub.h"
 
 #define SCALE 16
+#define PI 180
 
 void    pixel_put(t_img *img, int x, int y, int color)
 {
@@ -29,53 +30,31 @@ void    scale_map(t_all all)
     int end_y = (all.point.y + 1) * SCALE;
     all.point.x *= SCALE;
     all.point.y *= SCALE;
-    while (all.point.x < end_x)
+    while (all.point.y < end_y)
     {
-        while (all.point.y < end_y)
+        while (all.point.x < end_x)
         {
-            pixel_put(&all.img, all.point.y, all.point.x, all.map_color);
-            all.point.y++;
+            pixel_put(&all.img, all.point.x, all.point.y, all.map_color);
+            all.point.x++;
         }
-        all.point.y -= SCALE;
-        all.point.x++;
+        all.point.x -= SCALE;
+        all.point.y++;
     }
-    end_x = (all.plr.x + 1) * SCALE;
-    end_y = (all.plr.y +1) * SCALE;
-    all.plr.x *= SCALE;
-    all.plr.y *= SCALE;
-    while (all.plr.x < end_x)
-    {
-        while (all.plr.y < end_y)
-        {
-            pixel_put(&all.img, all.plr.y, all.plr.x, all.plr.color);
-            all.plr.y++;
-        }
-        all.plr.y -= SCALE;
-        all.plr.x++;
-    }
+    // end_x = (all.plr.x + 1) * SCALE;
+    // end_y = (all.plr.y +1) * SCALE;
+    // all.plr.x *= SCALE;
+    // all.plr.y *= SCALE;
+    // while (all.plr.y < end_y)
+    // {
+    //     while (all.plr.x < end_x)
+    //     {
+    //         pixel_put(&all.img, all.plr.x, all.plr.y, all.plr.color);
+    //         all.plr.x++;
+    //     }
+    //     all.plr.x -= SCALE;
+    //     all.plr.y++;
+    // }
 }
-
-// void    scale_plr(t_all all)
-// {
-//     all.img.img = mlx_new_image(all.mlx, 1080, 720);
-//     all.img.addr = mlx_get_data_addr(all.img.img, &all.img.bpp, &all.img.line_len, &all.img.endian);
-
-//     int end_x = (all.plr.x + 1) * SCALE;
-//     int end_y = (all.plr.y +1) * SCALE;
-//     all.plr.x *= SCALE;
-//     all.plr.y *= SCALE;
-//     while (all.plr.x < end_x)
-//     {
-//         while (all.plr.y < end_y)
-//         {
-//             pixel_put(&all.img, all.plr.y, all.plr.x, all.plr.color);
-//             all.plr.y++;
-//         }
-//         all.plr.y -= SCALE;
-//         all.plr.x++;
-//     }
-//     mlx_put_image_to_window(all.mlx, all.win, all.img.img, 0, 0);
-// }
 
 void	ft_cast_ray(t_all *all)
 {
@@ -85,7 +64,7 @@ void	ft_cast_ray(t_all *all)
 	{
 		ray.x += cos(ray.dir);
 		ray.y += sin(ray.dir);
-		pixel_put(&all->img, ray.y, ray.x, 0x990099);
+		pixel_put(&all->img, ray.x, ray.y, 0x990099);
 	}
 }
 
@@ -95,65 +74,20 @@ void    draw_map(t_all *all)
     all->point.y = 0;
     all->img.img = mlx_new_image(all->mlx, 1080, 720);
     all->img.addr = mlx_get_data_addr(all->img.img, &all->img.bpp, &all->img.line_len, &all->img.endian);
-    while (all->map[all->point.x])
+    while (all->map[all->point.y])
     {
-        // printf("%s\n", all->map[all->point.x]);
-        all->point.y = 0;
-        while (all->map[all->point.x][all->point.y])
+        all->point.x = 0;
+        while (all->map[all->point.y][all->point.x])
         {
-            // if (all->map[all->point.x][all->point.y] == 'N' ||
-            //         all->map[all->point.x][all->point.y] == 'S' ||
-            //         all->map[all->point.x][all->point.y] == 'W' ||
-            //         all->map[all->point.x][all->point.y] == 'E')
-            // {
-            //     all->plr.x = all->point.x;
-            //     all->plr.y = all->point.y;
-            //     // scale_plr(*all);
-            // }
-            if (all->map[all->point.x][all->point.y] == '1')
+            if (all->map[all->point.y][all->point.x] == '1')
                 scale_map(*all);
-            all->point.y++;
+            all->point.x++;
         }
-        all->point.x++;
+        all->point.y++;
         ft_cast_ray(all);
     }
     mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
 }
-
-// int     key_hook(int keycode, t_all *all)
-// {
-//     if (keycode == 53)
-//     {
-//         mlx_destroy_window(all->mlx, all->win);
-//         exit(0);
-//     }
-//     if (keycode == 13)
-//     {
-//         all->plr.x--;
-//         draw_map(all);
-//         // scale_plr(*all);
-//     }
-//     if (keycode == 0)
-//     {
-//         all->plr.y--;
-//         draw_map(all);
-//         // scale_plr(*all);
-//     }
-//     if (keycode == 1)
-//     {
-//         all->plr.x++;
-//         draw_map(all);
-//         // scale_plr(*all);
-//     }
-//     if (keycode == 2)
-//     {
-//         all->plr.y++;
-//         draw_map(all);
-//         // scale_plr(*all);
-//     }
-//     printf("%d\n", keycode);
-//     return (0);
-// }
 
 int     key_press(int keycode, t_all *all)
 {
@@ -164,22 +98,41 @@ int     key_press(int keycode, t_all *all)
     }
     if (keycode == 13)
     {
-        all->plr.x--;
-        // all->plr.y -= sin(all->plr.dir);
-        // all->plr.x -= cos(all->plr.dir);
-    }
-    if (keycode == 0)
-    {
-        all->plr.y--;
+        // all->plr.y--;
+        all->plr.x += cos(all->plr.dir) * 3;
+        all->plr.y += sin(all->plr.dir) * 3;
     }
     if (keycode == 1)
     {
-        all->plr.x++;
+        // all->plr.y++;
+        all->plr.x -= cos(all->plr.dir) * 3;
+        all->plr.y -= sin(all->plr.dir) * 3;
+    }
+    if (keycode == 0)
+    {
+        // all->plr.x--;
+        all->plr.y += cos(all->plr.dir) * 3;
+        all->plr.x += sin(all->plr.dir) * 3;
+        // all->plr.dir -= 0.05;
     }
     if (keycode == 2)
     {
-        all->plr.y++;
+        // all->plr.x++;
+        all->plr.y -= cos(all->plr.dir) * 3;
+        all->plr.x -= sin(all->plr.dir) * 3;
+        // all->plr.dir += 0.05;
     }
+    if (keycode == 12)
+    {
+        // all->plr.x--;
+        all->plr.dir -= 0.05;
+    }
+    if (keycode == 14)
+    {
+        // all->plr.x++;
+        all->plr.dir += 0.05;
+    }
+    // printf("%d\n", keycode);
     draw_map(all);
     return (0);
 }
@@ -192,7 +145,6 @@ void    make_window(t_all *all)
     all->mlx = mlx_init();
     all->win = mlx_new_window(all->mlx, 1080, 720, "figures");
     draw_map(all);
-    // mlx_key_hook(all->win, key_hook, all);
     mlx_hook(all->win, 2, (1L<<0), key_press, all);
     mlx_loop(all->mlx);
 }
@@ -225,6 +177,7 @@ int     open_map(char *map, t_list **head, t_all *all)
     while ((get_next_line(fd, &line)) > 0)
         ft_lstadd_back(head, ft_lstnew(line));
     ft_lstadd_back(head, ft_lstnew(line));
+    close(fd);
     return (1);
 }
 
@@ -242,8 +195,9 @@ int     player(t_all *all)
             if (all->map[i][j] == 'N' || all->map[i][j] == 'S' ||
                 all->map[i][j] == 'W' || all->map[i][j] == 'E')
             {
-                all->plr.x = i;
-                all->plr.y = j;
+                all->plr.x = j * SCALE;
+                all->plr.y = i * SCALE;
+                all->plr.dir = 3 * M_PI_2;
                 return (1);
             }
             j++;
