@@ -14,7 +14,6 @@
 #include "../includes/cub.h"
 
 #define SCALE 16
-#define PI 180
 
 void    pixel_put(t_img *img, int x, int y, int color)
 {
@@ -58,14 +57,23 @@ void    scale_map(t_all all)
 
 void	ft_cast_ray(t_all *all)
 {
-	t_plr	ray = all->plr; // задаем координаты луча равные координатам игрока
+	t_plr	ray;
 
-	while (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] != '1')
-	{
-		ray.x += cos(ray.dir);
-		ray.y += sin(ray.dir);
-		pixel_put(&all->img, ray.x, ray.y, 0x990099);
-	}
+    ray = all->plr;
+    ray.start = ray.dir - M_PI / 6;
+    ray.end = ray.dir + M_PI / 6;
+    while (ray.start <= ray.end)
+    {
+        ray.x = all->plr.x;
+        ray.y = all->plr.y;
+	    while (all->map[(int)(ray.y / SCALE)][(int)(ray.x / SCALE)] != '1')
+	    {
+	    	ray.x += cos(ray.start);
+	    	ray.y += sin(ray.start);
+	    	pixel_put(&all->img, ray.x, ray.y, 0x990099);
+	    }
+        ray.start += (M_PI / 3) / 1080;
+    }
 }
 
 void    draw_map(t_all *all)
@@ -111,26 +119,12 @@ int     key_press(int keycode, t_all *all)
     if (keycode == 0)
     {
         // all->plr.x--;
-        all->plr.y += cos(all->plr.dir) * 3;
-        all->plr.x += sin(all->plr.dir) * 3;
-        // all->plr.dir -= 0.05;
+        all->plr.dir -= 0.1;
     }
     if (keycode == 2)
     {
         // all->plr.x++;
-        all->plr.y -= cos(all->plr.dir) * 3;
-        all->plr.x -= sin(all->plr.dir) * 3;
-        // all->plr.dir += 0.05;
-    }
-    if (keycode == 12)
-    {
-        // all->plr.x--;
-        all->plr.dir -= 0.05;
-    }
-    if (keycode == 14)
-    {
-        // all->plr.x++;
-        all->plr.dir += 0.05;
+        all->plr.dir += 0.1;
     }
     // printf("%d\n", keycode);
     draw_map(all);
