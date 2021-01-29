@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 16:15:22 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/22 23:58:08 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/01/28 22:30:18 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,33 @@ void    scale_map(t_all all)
     // }
 }
 
+void    map3d(t_all all, int len)
+{
+    int     y = 720;
+    int     x = 0;
+    int     start_y;
+    int     end_y;
+
+    all.img.img = mlx_new_image(all.mlx, 1920, 1080);
+    all.img.addr = mlx_get_data_addr(all.img.img, &all.img.bpp, &all.img.line_len, &all.img.endian);
+    start_y = 200 * len;
+    end_y = y - 200 * len;
+    while (x < 1080)
+    {
+        while (start_y < end_y)
+        {
+            pixel_put(&all.img, x, start_y, 0x00ff00);
+            start_y++;
+        }
+        x += 10;
+    }
+    mlx_put_image_to_window(all.mlx, all.win, all.img.img, 0, 0);
+}
+
 void	ft_cast_ray(t_all *all)
 {
 	t_plr	ray;
+    int     len = 0;
 
     ray = all->plr;
     ray.start = ray.dir - M_PI / 6;
@@ -71,16 +95,18 @@ void	ft_cast_ray(t_all *all)
 	    	ray.x += cos(ray.start);
 	    	ray.y += sin(ray.start);
 	    	pixel_put(&all->img, ray.x, ray.y, 0x990099);
+            len++;
 	    }
+        // map3d(*all, len);
         ray.start += (M_PI / 3) / 1080;
     }
 }
 
-void    draw_map(t_all *all)
+void    draw_mini_map(t_all *all)
 {
     all->point.x = 0;
     all->point.y = 0;
-    all->img.img = mlx_new_image(all->mlx, 1080, 720);
+    all->img.img = mlx_new_image(all->mlx, 1920, 1080);
     all->img.addr = mlx_get_data_addr(all->img.img, &all->img.bpp, &all->img.line_len, &all->img.endian);
     while (all->map[all->point.y])
     {
@@ -127,7 +153,7 @@ int     key_press(int keycode, t_all *all)
         all->plr.dir += 0.1;
     }
     // printf("%d\n", keycode);
-    draw_map(all);
+    draw_mini_map(all);
     return (0);
 }
 
@@ -137,8 +163,8 @@ void    make_window(t_all *all)
 
     i = 0;
     all->mlx = mlx_init();
-    all->win = mlx_new_window(all->mlx, 1080, 720, "figures");
-    draw_map(all);
+    all->win = mlx_new_window(all->mlx, 1920, 1080, "figures");
+    draw_mini_map(all);
     mlx_hook(all->win, 2, (1L<<0), key_press, all);
     mlx_loop(all->mlx);
 }
@@ -191,7 +217,10 @@ int     player(t_all *all)
             {
                 all->plr.x = j * SCALE;
                 all->plr.y = i * SCALE;
-                all->plr.dir = 3 * M_PI_2;
+                all->plr.dir = all->map[i][j] == 'N' ? 3 * M_PI_2 :
+                                all->map[i][j] == 'S' ? M_PI_2 :
+                                all->map[i][j] == 'W' ? M_PI :
+                                all->map[i][j] == 'E' ? 2 * M_PI : 0;
                 return (1);
             }
             j++;
