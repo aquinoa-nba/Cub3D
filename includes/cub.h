@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/29 20:55:33 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/01/30 20:42:33 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@
 
 typedef struct	s_flags
 {
-	int			flag_no;
-	int			flag_so;
-	int			flag_we;
-	int			flag_ea;
-	int			flag_sprite;
-	int			flag_floor;
-	int			flag_ceilling;
-	int			flag_error;
+	int			r;
+	int			no;
+	int			so;
+	int			we;
+	int			ea;
+	int			sprite;
+	int			floor;
+	int			ceilling;
+	int			error;
 }				t_flags;
 
 
