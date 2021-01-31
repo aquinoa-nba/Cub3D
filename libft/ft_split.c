@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aquinoa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 14:38:33 by aquinoa           #+#    #+#             */
-/*   Updated: 2020/11/12 23:05:43 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/01/31 21:26:33 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_split(char **res)
+void	ft_free_array(char **arr)
 {
-	while (*res)
+	int		i;
+
+	i = 0;
+	while (arr[i])
 	{
-		free(*res);
-		res++;
+		free(arr[i]);
+		i++;
 	}
-	free(res);
+	free(arr);
 }
 
 int		ft_word_count(char const *s, char c)
@@ -55,7 +58,7 @@ char	**ft_filling(char **res, int i, char const *s, char c)
 		s++;
 	}
 	if (!(res[i] = (char*)ft_calloc(count + 1, sizeof(char))))
-		ft_free_split(res);
+		ft_free_array(res);
 	count = 0;
 	while (*s2 && *s2 != c)
 	{

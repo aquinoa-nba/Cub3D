@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/30 20:42:33 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/01/31 22:50:13 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ typedef struct	s_flags
 	int			so;
 	int			we;
 	int			ea;
-	int			sprite;
-	int			floor;
-	int			ceilling;
+	int			spr;
+	int			fl;
+	int			ceil;
 	int			error;
 }				t_flags;
 
@@ -39,14 +39,18 @@ typedef struct	s_texture {
 	char		*so;
 	char		*we;
 	char		*ea;
-	char		*sprite;
-	int			floor;
-	int			ceilling;
+	char		*spr;
+	int			fl;
+	int			ceil;
 }				t_texture;
 
 typedef struct	s_map {
+	char		*line;
+	char		**sline;
 	int			x;
 	int			y;
+	char		**f;
+	char		**c;
 	t_texture	texture;
 	t_flags		flags;
 }				t_map;
