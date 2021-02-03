@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/31 22:50:13 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/03 15:32:21 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct	s_texture {
 
 typedef struct	s_map {
 	char		*line;
+	char		**map;
 	char		**sline;
 	int			x;
 	int			y;
@@ -80,16 +81,19 @@ typedef struct	s_player {
 typedef struct	s_all {
 	void		*mlx;
 	void		*win;
-	char		**map;
+	// char		**map;
 	int			map_color;
 	t_img		img;
 	t_point		point;
 	t_plr		plr;
+	t_map		map;
 }				t_all;
 
 void			pixel_put(t_img *img, int x, int y, int color);
 int				tunnel(t_all *all);
 int				tunnel_2(t_all *all);
-void			error(int error_num);
+void			error(char *error);
+void			parser(char fd, t_list **head, t_all *all);
+void			validator(int len, t_all *all);
 
 #endif
