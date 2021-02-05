@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aquinoa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 21:26:00 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/19 15:12:40 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/05 14:28:57 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-typedef struct	s_args {
-	double	nb;
-	int		flag;
-	long	whole_frac;
-	double	frac;
-	int		i;
-}				t_args;
 
 double			represent(t_args arg)
 {

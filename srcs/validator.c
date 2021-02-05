@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 18:20:34 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/03 18:12:12 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/05 15:41:59 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	check_zero(int i, int j, t_flags *flags, t_map map)
 		map.map[i - 1][j + 1] == ' ' || map.map[i][j - 1] == ' ' ||
 		map.map[i][j + 1] == ' ' || map.map[i + 1][j - 1] == ' ' ||
 		map.map[i + 1][j] == ' ' || map.map[i + 1][j + 1] == ' ') ?
-											error("Invalid map!!") : 0;
+											error("Invalid map!") : 0;
 	}
 	else if (map.map[i][j] != '1' && map.map[i][j] != '2' && map.map[i][j]
 		!= '0' && map.map[i][j] != ' ')
-		error("Invalid map!!!");
+		error("Invalid map!");
 }
 
 void	inside_check(int i, t_flags *flags, t_map map)
@@ -66,7 +66,7 @@ void	validator(int len, t_all *all)
 			j = -1;
 			while (map.map[i][++j])
 				(map.map[i][j] != '1' && map.map[i][j] != ' ') ?
-					error("Map is not closed!!!") : 0;
+					error("Map is not closed!") : 0;
 		}
 		else
 			inside_check(i, flags, map);

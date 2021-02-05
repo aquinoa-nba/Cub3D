@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:16:40 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/03 18:17:27 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/05 15:22:57 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ void	color_parser(t_all *all)
 void	parser(char fd, t_list **head, t_all *all)
 {
 	int		gnl;
+	t_list	*new;
 
-	while ((get_next_line(fd, &all->map.line)) > 0)
+	while ((gnl = get_next_line(fd, &all->map.line)) > 0)
 	{
 		if (!(all->map.sline = ft_split(all->map.line, ' ')))
 			error("Memory error!");
@@ -106,5 +107,7 @@ void	parser(char fd, t_list **head, t_all *all)
 		ft_free_array(all->map.sline);
 	}
 	gnl == -1 ? error("Map reading error!!") : 0;
-	ft_lstadd_back(head, ft_lstnew(all->map.line));
+	new = ft_lstnew(all->map.line);
+	!new->content ? error("Memory error!") : 0;
+	ft_lstadd_back(head, new);
 }
