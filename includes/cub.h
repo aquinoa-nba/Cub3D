@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/05 21:19:50 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/06 21:22:42 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ typedef struct	s_flags
 	int			error;
 }				t_flags;
 
+typedef struct	s_key_flags {
+	int			w;
+	int			s;
+	int			d;
+	int			a;
+	int			r;
+	int			l;
+	int			sh;
+}				t_key_flags;
 
 typedef struct	s_texture {
 	char		*no;
@@ -123,13 +132,15 @@ typedef struct	s_all {
 	t_plr		plr;
 	t_map		map;
 	t_lodev		lodev;
+	t_key_flags	flag;
 }				t_all;
 
 void			pixel_put(t_img *img, int x, int y, int color);
 void			error(char *error);
 void			parser(char fd, t_list **head, t_all *all);
 void			validator(int len, t_all *all);
-void			make_window(t_all *all);
+// void			make_window(t_all *all);
 int				lodev(t_all *all);
+// void			draw_mini_map(t_all *all);
 
 #endif

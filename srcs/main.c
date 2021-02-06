@@ -6,11 +6,46 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 13:04:22 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/05 22:53:51 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/06 22:25:30 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
+
+void	orientation(int i, int j, t_all *all)
+{
+	if (all->map.map[i][j] == 'N')
+	{
+		all->lodev.dirX = -1;
+		all->lodev.dirY = 0;
+		all->lodev.planeX = 0;
+		all->lodev.planeY = 0.66;
+
+	}
+	else if (all->map.map[i][j] == 'S')
+	{
+		all->lodev.dirX = 1;
+		all->lodev.dirY = 0;
+		all->lodev.planeX = 0;
+		all->lodev.planeY = -0.66;
+	}
+	else if ( all->map.map[i][j] =='W')
+	{
+
+		all->lodev.dirX = 0;
+		all->lodev.dirY = -1;
+		all->lodev.planeX = -0.66;
+		all->lodev.planeY = 0;
+	}
+	else if (all->map.map[i][j] == 'E')
+	{
+
+		all->lodev.dirX = 0;
+		all->lodev.dirY = 1;
+		all->lodev.planeX = 0.66;
+		all->lodev.planeY = 0;
+	}
+}
 
 void	player(t_all *all)
 {
@@ -25,8 +60,9 @@ void	player(t_all *all)
 		if (all->map.map[i][j] == 'N' || all->map.map[i][j] == 'S'
 			|| all->map.map[i][j] =='W' || all->map.map[i][j] == 'E')
 		{
-			all->lodev.posX = j;
-			all->lodev.posY = i;
+			all->lodev.posX = i + 0.5;
+			all->lodev.posY = j + 0.5;
+			orientation(i, j, all);
 		}
 	}
 }
@@ -94,10 +130,8 @@ int		main(int argc, char **argv)
 	all->mlx = mlx_init();
 	all->win = mlx_new_window(all->mlx, all->map.x, all->map.y, "lodev");
 
-	all->lodev.dirX = -1;
-	all->lodev.dirY = 0;
-	all->lodev.planeX = 0;
-	all->lodev.planeY = 0.66;
+	all->lodev.moveSpeed = 0.05;
+	all->lodev.rotSpeed = 0.03;
 
 	player(all);
 
