@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/06 21:22:42 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/07 21:41:39 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct	s_player {
 	int			color;
 }				t_plr;
 
-typedef struct	s_lodev {
+typedef struct	s_raycast {
 	double	posX;
 	double	posY;
 	double	dirX;
@@ -121,18 +121,36 @@ typedef struct	s_lodev {
 	double	oldDirX;
 	double	oldDirY;
 	double	oldPlaneX;
-}				t_lodev;
+
+	double	wallX;
+	int		texX;
+	int		texY;
+	int		texWidth;
+	int		texHeight;
+	double	texPos;
+	double	step;
+}				t_raycast;
+
+// typedef struct	s_txr {
+// 	void		*img;
+// 	char		*addr;
+// 	int			bpp;
+// 	int			line_len;
+// 	int			endian;
+// }				t_txr;
 
 
 typedef struct	s_all {
 	void		*mlx;
 	void		*win;
+	int			color;
 	t_img		img;
 	t_point		point;
 	t_plr		plr;
 	t_map		map;
-	t_lodev		lodev;
+	t_raycast	rc;
 	t_key_flags	flag;
+	t_img		txr[4];
 }				t_all;
 
 void			pixel_put(t_img *img, int x, int y, int color);
@@ -140,7 +158,7 @@ void			error(char *error);
 void			parser(char fd, t_list **head, t_all *all);
 void			validator(int len, t_all *all);
 // void			make_window(t_all *all);
-int				lodev(t_all *all);
+int				raycast(t_all *all);
 // void			draw_mini_map(t_all *all);
 
 #endif
