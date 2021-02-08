@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/07 21:41:39 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/08 22:12:59 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,14 @@ typedef struct	s_raycast {
 	double	step;
 }				t_raycast;
 
+// typedef struct	s_sprt {
+// 	void		*img;
+// 	char		*addr;
+// 	int			bpp;
+// 	int			line_len;
+// 	int			endian;
+// }				t_sprt;
+
 // typedef struct	s_txr {
 // 	void		*img;
 // 	char		*addr;
@@ -138,7 +146,6 @@ typedef struct	s_raycast {
 // 	int			line_len;
 // 	int			endian;
 // }				t_txr;
-
 
 typedef struct	s_all {
 	void		*mlx;
@@ -159,6 +166,8 @@ void			parser(char fd, t_list **head, t_all *all);
 void			validator(int len, t_all *all);
 // void			make_window(t_all *all);
 int				raycast(t_all *all);
+int				get_color(t_img *img, int x, int y);
 // void			draw_mini_map(t_all *all);
+void			sprite_cast(t_all *all);
 
 #endif

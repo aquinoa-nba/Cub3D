@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 13:04:22 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/07 13:41:47 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/08 21:54:02 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,14 @@ int		main(int argc, char **argv)
 				all->map.flags.fl && all->map.flags.ceil))
 		error("Incorrect configuration!");
 	open_map(fd, &head);
+
+
 	make_map(head, all);
 	player(all);
 	all->mlx = mlx_init();
 	all->win = mlx_new_window(all->mlx, all->map.x, all->map.y, "cub3D");
 	all->rc.moveSpeed = 0.05;
-	all->rc.rotSpeed = 0.03;
+	all->rc.rotSpeed = 0.035;
 	mlx_loop_hook(all->mlx, raycast, all);
 	mlx_loop(all->mlx);
 }

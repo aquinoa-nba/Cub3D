@@ -6,18 +6,18 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:48:56 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/07 23:03:48 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/08 23:03:37 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-int		get_color(t_all *all, int x, int y, int i)
+int		get_color(t_img *img, int x, int y)
 {
 	int		color;
 	char	*dst;
 
-	dst = all->txr[i].addr + (y * all->txr[i].line_len + x * (all->txr[i].bpp / 8));
+	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	color = *(unsigned int*)dst;
 	return (color);
 }
@@ -37,22 +37,22 @@ int		close_window(int keycode, t_all *all)
 
 void	move_right(t_all *all)
 {
-	if(all->map.map[(int)(all->rc.posX + all->rc.dirY *
+	if(all->map.map[(int)(all->rc.posX + all->rc.planeX *
 			all->rc.moveSpeed)][(int)(all->rc.posY)] != '1')
-		all->rc.posX += all->rc.dirY * all->rc.moveSpeed;
-	if(all->map.map[(int)(all->rc.posX)][(int)(all->rc.posY -
-					all->rc.dirX * all->rc.moveSpeed)] != '1')
-		all->rc.posY -= all->rc.dirX * all->rc.moveSpeed;
+		all->rc.posX += all->rc.planeX * all->rc.moveSpeed;
+	if(all->map.map[(int)(all->rc.posX)][(int)(all->rc.posY +
+					all->rc.planeY * all->rc.moveSpeed)] != '1')
+		all->rc.posY += all->rc.planeY * all->rc.moveSpeed;
 }
 
 void	move_left(t_all *all)
 {
-	if(all->map.map[(int)(all->rc.posX - all->rc.dirY *
+	if(all->map.map[(int)(all->rc.posX - all->rc.planeX *
 			all->rc.moveSpeed)][(int)(all->rc.posY)] != '1')
-		all->rc.posX -= all->rc.dirY * all->rc.moveSpeed;
-	if(all->map.map[(int)(all->rc.posX)][(int)(all->rc.posY +
-					all->rc.dirX * all->rc.moveSpeed)] != '1')
-		all->rc.posY += all->rc.dirX * all->rc.moveSpeed;
+		all->rc.posX -= all->rc.planeX * all->rc.moveSpeed;
+	if(all->map.map[(int)(all->rc.posX)][(int)(all->rc.posY -
+					all->rc.planeY * all->rc.moveSpeed)] != '1')
+		all->rc.posY -= all->rc.planeY * all->rc.moveSpeed;
 }
 
 void	go(t_all *all)
@@ -175,16 +175,16 @@ void	get_texture(t_all *all)
 	if (all->rc.side == 0)
 	{
 		if (all->rc.stepX > 0)
-			all->color = get_color(all, all->rc.texX, all->rc.texY, 0);
+			all->color = get_color(&all->txr[0], all->rc.texX, all->rc.texY);
 		else
-			all->color = get_color(all, all->rc.texX, all->rc.texY, 1);
+			all->color = get_color(&all->txr[1], all->rc.texX, all->rc.texY);
 	}
 	else
 	{
 		if (all->rc.stepY > 0)
-			all->color = get_color(all, all->rc.texX, all->rc.texY, 2);
+			all->color = get_color(&all->txr[2], all->rc.texX, all->rc.texY);
 		else
-			all->color = get_color(all, all->rc.texX, all->rc.texY, 3);
+			all->color = get_color(&all->txr[3], all->rc.texX, all->rc.texY);
 	}
 }
 
@@ -299,6 +299,7 @@ int		raycast(t_all *all)
 	mlx_hook(all->win, 2, (1L<<0), key_press, all);
 	mlx_hook(all->win, 3, (1L<<0), key_unpress, all);
     mlx_hook(all->win, 17, (1L<<0),	close_window, all);
+	// sprite_cast(all);
 	mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
 	mlx_string_put(all->mlx, all->win, all->map.x / 2, all->map.y / 2, 0xffffff, "+");
 	mlx_destroy_image(all->mlx, all->img.img);
