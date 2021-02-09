@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/08 22:12:59 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/09 23:00:18 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,16 @@ typedef struct	s_raycast {
 	int		texHeight;
 	double	texPos;
 	double	step;
+
+	double	ZBuffer;
+	int		numSprites;
 }				t_raycast;
 
-// typedef struct	s_sprt {
-// 	void		*img;
-// 	char		*addr;
-// 	int			bpp;
-// 	int			line_len;
-// 	int			endian;
-// }				t_sprt;
+typedef struct	s_sprt {
+	int			x;
+	int			y;
+	double		spriteDistance;
+}				t_sprt;
 
 // typedef struct	s_txr {
 // 	void		*img;
@@ -158,6 +159,7 @@ typedef struct	s_all {
 	t_raycast	rc;
 	t_key_flags	flag;
 	t_img		txr[4];
+	// t_sprt		sprt;
 }				t_all;
 
 void			pixel_put(t_img *img, int x, int y, int color);
@@ -168,6 +170,6 @@ void			validator(int len, t_all *all);
 int				raycast(t_all *all);
 int				get_color(t_img *img, int x, int y);
 // void			draw_mini_map(t_all *all);
-void			sprite_cast(t_all *all);
+void			sprite_cast(t_all *all, double *ZBuffer);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:48:56 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/08 23:03:37 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/10 00:24:43 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int		raycast(t_all *all)
 {
 	int		x;
 	int		y;
+	double ZBuffer[all->map.x];
 
 	all->img.img = mlx_new_image(all->mlx, all->map.x, all->map.y);
 	all->img.addr = mlx_get_data_addr(all->img.img, &all->img.bpp,
@@ -293,13 +294,14 @@ int		raycast(t_all *all)
 				pixel_put(&all->img, x, y, all->map.texture.fl);
 			y++;
 		}
+		ZBuffer[x] = all->rc.perpWallDist;
 		x++;
 	}
 
 	mlx_hook(all->win, 2, (1L<<0), key_press, all);
 	mlx_hook(all->win, 3, (1L<<0), key_unpress, all);
     mlx_hook(all->win, 17, (1L<<0),	close_window, all);
-	// sprite_cast(all);
+	sprite_cast(all, ZBuffer);
 	mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
 	mlx_string_put(all->mlx, all->win, all->map.x / 2, all->map.y / 2, 0xffffff, "+");
 	mlx_destroy_image(all->mlx, all->img.img);
