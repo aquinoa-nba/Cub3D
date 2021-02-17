@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:38:50 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/05 14:28:50 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/14 19:57:43 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char			*ft_strchr(const char *s, int c);
 char			*ft_strrchr(const char *s, int c);
 char			*ft_strnstr(const char *haystack, const char *needle, size_t l);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
-int				ft_atoi(const char *str);
+long long		ft_atoi(const char *str);
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
 int				ft_isalnum(int c);
@@ -83,6 +83,7 @@ typedef struct	s_args {
 
 double			ft_atof(char *str);
 int				ft_array_len(char **array);
+int				ft_number_len(unsigned long long int nb);
 int				ft_strrncmp(const char *s1, const char *s2, size_t n);
 int				ft_isdigit_str(char *str);
 void			ft_free_array(char **arr);

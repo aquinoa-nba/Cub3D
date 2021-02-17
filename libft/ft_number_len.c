@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_number_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aquinoa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 08:49:53 by aquinoa           #+#    #+#             */
-/*   Updated: 2020/12/13 08:50:31 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/16 21:15:05 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_number_len(long nb)
+int		ft_number_len(unsigned long long int nb)
 {
 	int		count;
 

@@ -6,19 +6,19 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/09 23:00:18 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/17 22:21:40 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB_H
 # define CUB_H
 
-# include "../minilibx_opengl_20191021/mlx.h"
+# include "../minilibx_mms_20200219/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include "../libft/libft.h"
 
-#define SCALE 10
+# define TYPE "RNSWEFC"
 
 typedef struct	s_flags
 {
@@ -30,7 +30,6 @@ typedef struct	s_flags
 	int			spr;
 	int			fl;
 	int			ceil;
-	int			error;
 }				t_flags;
 
 typedef struct	s_key_flags {
@@ -53,18 +52,6 @@ typedef struct	s_texture {
 	int			ceil;
 }				t_texture;
 
-typedef struct	s_map {
-	char		*line;
-	char		**map;
-	char		**sline;
-	int			x;
-	int			y;
-	char		**f;
-	char		**c;
-	t_texture	texture;
-	t_flags		flags;
-}				t_map;
-
 typedef struct	s_img {
 	void		*img;
 	char		*addr;
@@ -73,103 +60,97 @@ typedef struct	s_img {
 	int			endian;
 }				t_img;
 
-typedef struct	s_point {
-	int			x;
-	int			y;
-}				t_point;
-
-typedef struct	s_player {
-	float		x;
-	float		y;
-	float		dir;
-	float		start;
-	float		end;
-	int			color;
-}				t_plr;
-
 typedef struct	s_raycast {
-	double	posX;
-	double	posY;
-	double	dirX;
-	double	dirY;
-	double	planeX;
-	double	planeY;
+	double		p_x;
+	double		p_y;
+	double		p_dir_x;
+	double		p_dir_y;
+	double		v_cam_x;
+	double		v_cam_y;
+	double		cam_x;
+	double		r_dir_x;
+	double		r_dir_y;
+	int			r_map_x;
+	int			r_map_y;
+	double		r_len0_x;
+	double		r_len0_y;
+	double		r_len_x;
+	double		r_len_y;
+	double		perp_len;
+	int			step_x;
+	int			step_y;
+	int			hit;
+	int			side;
+	int			wall_height;
+	int			wall_top;
+	int			wall_bot;
+	double		move_speed;
+	double		rot_speed;
+	double		old_dir_x;
+	double		oldv_cam_x;
+	double		wall_x;
+	int			txr_x;
+	int			txr_y;
+	int			txr_width;
+	int			txr_height;
+	double		tex_pos;
+	double		scale;
+	int			sprts_count;
 
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-
-	int		mapX;
-	int		mapY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	double	perpWallDist;
-	int		stepX;
-	int		stepY;
-	int		hit;
-	int		side;
-
-	int		lineHeight;
-	int		drawStart;
-	int		drawEnd;
-
-	double	moveSpeed;
-	double	rotSpeed;
-
-	double	oldDirX;
-	double	oldDirY;
-	double	oldPlaneX;
-
-	double	wallX;
-	int		texX;
-	int		texY;
-	int		texWidth;
-	int		texHeight;
-	double	texPos;
-	double	step;
-
-	double	ZBuffer;
-	int		numSprites;
+	double		spr_x;
+	double		spr_y;
+	double		invDet;
+	double		trnfrm_x;
+	double		trnfrm_y;
+	int			spr_scr_x;
+	int			spr_height;
+	int			sprite_width;
+	int			draw_start_y;
+	int			draw_end_y;
+	int			draw_start_x;
+	int			draw_end_x;
+	int			stripe;
+	int			tex_x;
+	int			tex_y;
 }				t_raycast;
 
 typedef struct	s_sprt {
-	int			x;
-	int			y;
-	double		spriteDistance;
+	double		x;
+	double		y;
+	double		dist;
 }				t_sprt;
-
-// typedef struct	s_txr {
-// 	void		*img;
-// 	char		*addr;
-// 	int			bpp;
-// 	int			line_len;
-// 	int			endian;
-// }				t_txr;
 
 typedef struct	s_all {
 	void		*mlx;
 	void		*win;
+	int			res_w;
+	int			res_h;
+	char		**map;
 	int			color;
+	char		*line;
+	int			sprt_w;
+	int			sprt_h;
 	t_img		img;
-	t_point		point;
-	t_plr		plr;
-	t_map		map;
+	t_texture	txrs;
+	t_flags		cflag;
 	t_raycast	rc;
 	t_key_flags	flag;
 	t_img		txr[4];
-	// t_sprt		sprt;
 }				t_all;
 
-void			pixel_put(t_img *img, int x, int y, int color);
-void			error(char *error);
 void			parser(char fd, t_list **head, t_all *all);
+void			pixel_put(t_img *img, int x, int y, int color);
+void			pars_no(t_all *all);
+void			pars_so_and_sprt(t_all *all);
+void			pars_we(t_all *all);
+void			pars_ea(t_all *all);
+void			pars_floor_n_ceilling(t_all *all);
+int				color_check(char **color);
+void			error(char *error);
 void			validator(int len, t_all *all);
-// void			make_window(t_all *all);
 int				raycast(t_all *all);
 int				get_color(t_img *img, int x, int y);
-// void			draw_mini_map(t_all *all);
-void			sprite_cast(t_all *all, double *ZBuffer);
+void			sprite_cast(t_all *all, double *perp_buf);
+void			scrsht(int fd, t_all *all);
 
 #endif

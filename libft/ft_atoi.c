@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aquinoa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 12:46:13 by aquinoa           #+#    #+#             */
-/*   Updated: 2020/11/10 00:54:34 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/14 19:50:36 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_atoi(const char *str)
+long long	ft_atoi(const char *str)
 {
 	int			n;
 	long long	num;

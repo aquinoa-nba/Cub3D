@@ -6,7 +6,7 @@
 #    By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/03 22:24:52 by aquinoa           #+#    #+#              #
-#    Updated: 2021/01/31 01:22:57 by aquinoa          ###   ########.fr        #
+#    Updated: 2021/02/16 21:01:51 by aquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,13 @@ HEADER = libft.h
 
 $(NAME): $(OBJS)
 		ar rc $@ $(OBJS)
+		make clean
 
 all:	$(NAME)
 
 bonus:	$(OBJS) $(OBJS_BONUS)
 		ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
+		make clean
 
 %.o:	%.c $(HEADER)
 		gcc -c $(CFLAGS) $< -I ./$(HEADER)
