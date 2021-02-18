@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 16:16:40 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/17 15:33:45 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/18 11:39:58 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	pars_res(t_all *all)
 	{
 		all->res_w = ft_atoi(s_line[1]);
 		all->res_h = ft_atoi(s_line[2]);
-		all->res_w > res_w || (ft_strlen(s_line[1])) > 4 ? all->res_w = res_w : 0;
+		all->res_w > res_w || (ft_strlen(s_line[1])) > 4 ?
+											all->res_w = res_w : 0;
 		all->res_h > res_h || (ft_strlen(s_line[2])) > 4 ?
 											all->res_h = res_h : 0;
 	}
@@ -36,7 +37,7 @@ void	pars_res(t_all *all)
 							error("Negative resolution!") : 0;
 		error("Incorrect resolution config!");
 	}
-		ft_free_array(s_line);
+	ft_free_array(s_line);
 }
 
 void	map_first_line(t_list **head, t_all *all)

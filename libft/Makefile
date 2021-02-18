@@ -6,7 +6,7 @@
 #    By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/03 22:24:52 by aquinoa           #+#    #+#              #
-#    Updated: 2021/02/16 21:01:51 by aquinoa          ###   ########.fr        #
+#    Updated: 2021/02/18 20:13:20 by aquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,23 +35,25 @@ CFLAGS = -Wall -Wextra -Werror
 HEADER = libft.h
 
 $(NAME): $(OBJS)
-		ar rc $@ $(OBJS)
-		make clean
+		@ar rc $@ $(OBJS)
+		@echo libft.a done!
 
 all:	$(NAME)
 
 bonus:	$(OBJS) $(OBJS_BONUS)
-		ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
-		make clean
+		@ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
+		@echo libft.a done with bonus!
 
 %.o:	%.c $(HEADER)
-		gcc -c $(CFLAGS) $< -I ./$(HEADER)
+		@gcc -c $(CFLAGS) $< -I ./$(HEADER)
 
 clean:
-		rm -f $(OBJS) $(OBJS_BONUS)
+		@rm -f $(OBJS) $(OBJS_BONUS)
+		@echo objs for libft deleted!
 
 fclean:	clean
-		rm -f $(NAME)
+		@rm -f $(NAME)
+		@echo libft.a deleted!
 
 re:		fclean all
 

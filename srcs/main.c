@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 13:04:22 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/17 22:21:45 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/18 12:44:56 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,30 +92,6 @@ void	make_map(t_list *head, t_all *all)
 	validator(i - 1, all);
 }
 
-void	open_map(int fd, t_list **head)
-{
-	char	*line;
-	int		gnl;
-	t_list	*new;
-
-	while ((gnl = get_next_line(fd, &line)) > 0)
-	{
-		if (*line)
-		{
-			new = ft_lstnew(line);
-			!new->content ? error("Memory error!") : 0;
-			ft_lstadd_back(head, new);
-		}
-		else
-			error("Invalid map!");
-	}
-	gnl == -1 ? error("Map reading error!!") : 0;
-	new = ft_lstnew(line);
-	!new->content ? error("Memory error!") : 0;
-	ft_lstadd_back(head, new);
-	close(fd);
-}
-
 int		main(int argc, char **argv)
 {
 	t_all	*all;
@@ -138,15 +114,7 @@ int		main(int argc, char **argv)
 	all->win = mlx_new_window(all->mlx, all->res_w, all->res_h, "cub3D");
 	init_texture(all);
 	if (argc == 3)
-	{
-		ft_strrncmp(argv[2], "--save", 6) || ft_strlen(argv[2]) != 6 ?
-											error("Invalid argument!") : 0;
-		fd = open("screenshot.bmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
-		raycast(all);
-		scrsht(fd, all);
-		close(fd);
-		exit(0);
-	}
+		check_save(argv[2], all);
 	all->rc.move_speed = 0.05;
 	all->rc.rot_speed = 0.035;
 	mlx_loop_hook(all->mlx, raycast, all);
