@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 19:55:24 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/18 18:28:18 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/22 20:24:02 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,24 @@ void	sprites_arr(t_sprt *sprts, t_all *all)
 	int		j;
 	int		n;
 
-	n = -1;
+	n = 0;
 	i = -1;
 	while (all->map[++i])
 	{
 		j = -1;
 		while (all->map[i][++j])
 		{
-			if (all->map[i][j] == '2' && ++n)
+			if (all->map[i][j] == '2')
 			{
 				sprts[n].x = i + 0.5;
 				sprts[n].y = j + 0.5;
+				n++;
 			}
 		}
 	}
 }
 
-void	draw_sprite(t_img sprt, double *perp_buf, t_all *all)
+void	draw_sprite(double *perp_buf, t_all *all)
 {
 	int		y;
 	int		d;
@@ -51,7 +52,8 @@ void	draw_sprite(t_img sprt, double *perp_buf, t_all *all)
 			{
 				d = (y) * 256 - all->res_h * 128 + all->rc.spr_height * 128;
 				all->rc.tex_y = ((d * all->sprt_h) / all->rc.spr_height) / 256;
-				all->color = get_color(&sprt, all->rc.tex_x, all->rc.tex_y);
+				all->color = get_color(&all->txr[4],
+												all->rc.tex_x, all->rc.tex_y);
 				if ((all->color & 0x00FFFFFF) != 0)
 					pixel_put(&all->img, all->rc.stripe, y, all->color);
 			}
@@ -77,7 +79,7 @@ void	sprite_width_n_height(t_all *all)
 		all->rc.draw_end_y = all->res_h - 1;
 }
 
-void	sprite_casting(t_img sprt, double *perp_buf, t_sprt *sprts, t_all *all)
+void	sprite_casting(double *perp_buf, t_sprt *sprts, t_all *all)
 {
 	int		i;
 
@@ -98,7 +100,7 @@ void	sprite_casting(t_img sprt, double *perp_buf, t_sprt *sprts, t_all *all)
 									(1 + all->rc.trnfrm_x / all->rc.trnfrm_y));
 			sprite_width_n_height(all);
 			all->rc.stripe = all->rc.draw_start_x - 1;
-			draw_sprite(sprt, perp_buf, all);
+			draw_sprite(perp_buf, all);
 		}
 	}
 }
@@ -107,7 +109,6 @@ void	sprites(t_all *all, double *perp_buf)
 {
 	int		i;
 	t_sprt	sprts[all->rc.sprts_count];
-	t_img	sprt;
 
 	sprites_arr(sprts, all);
 	i = -1;
@@ -118,9 +119,5 @@ void	sprites(t_all *all, double *perp_buf)
 					(all->rc.p_y - sprts[i].y));
 	}
 	sort_sprites(sprts, 0, all->rc.sprts_count - 1);
-	sprt.img = mlx_xpm_file_to_image(all->mlx, all->txrs.spr,
-				&all->sprt_w, &all->sprt_h);
-	sprt.addr = mlx_get_data_addr(sprt.img, &sprt.bpp,
-				&sprt.line_len, &sprt.endian);
-	sprite_casting(sprt, perp_buf, sprts, all);
+	sprite_casting(perp_buf, sprts, all);
 }

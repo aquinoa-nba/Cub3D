@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 18:28:56 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/31 21:10:17 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/21 19:51:12 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 char	*ft_strchr(const char *s, int c)
 {
+	int		i;
+
+	i = 0;
 	if (c == '\0')
 		return ((char*)s + ft_strlen(s));
-	while (*s)
+	while (s[i])
 	{
-		if (*s == (char)c)
-			return ((char*)s);
-		s++;
+		if (s[i] == (char)c)
+			return ((char*)(s + i));
+		i++;
 	}
 	return (0);
 }

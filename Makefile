@@ -6,7 +6,7 @@
 #    By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/14 00:12:07 by aquinoa           #+#    #+#              #
-#    Updated: 2021/02/18 21:43:41 by aquinoa          ###   ########.fr        #
+#    Updated: 2021/02/21 22:17:32 by aquinoa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,38 +20,42 @@ OBJS		=	$(SRCS:%.c=%.o)
 
 HEADERS		=	includes/cub.h
 
-# LIBFT		=	libft/libft.a
+LIBFT		=	libft/libft.a
 
-# LMLX		=	libmlx.dylib
+LIBMLX		=	libmlx.dylib
+
+LIBMLX_OPGL	=	libmlx.a
 
 FLAGS		=	-Wall -Wextra -Werror
 
-VPATH		=	srcs
+VPATH		=	./srcs
 
 
-all:			make_libft make_lmlx $(NAME)
+all:			$(NAME)
 
-make_libft:
+$(NAME):		$(OBJS)
 				make -C libft bonus
-
-make_lmlx:
 				make -C mlx
+				make -C minilibx_opengl
+				cp ./mlx/$(LIBMLX) ./
+				cp ./minilibx_opengl/$(LIBMLX_OPGL) ./
+				gcc $(FLAGS) $(OBJS) -framework OpenGL -framework AppKit ./$(LIBFT) ./$(LIBMLX_OPGL) ./$(LIBMLX) -o $@
+				@echo cub3D done!
 
-$(NAME):		$(OBJS) $(HEADERS)
-				cp ./mlx/libmlx.dylib ./
-				gcc $(FLAGS) $(OBJS) -framework OpenGL -framework AppKit ./libft/libft.a libmlx.dylib -o $@
-
-%.o:			%.c
-				gcc -c $< $(FLAGS)
+%.o:			%.c $(HEADERS)
+				gcc -c $(FLAGS) $< -I ./$(HEADERS)
 
 clean:
 				make -C libft clean
-				rm -f $(OBJS)
+				@rm -f $(OBJS)
+				@echo objs for cub3D deleted!
 
 fclean:			clean
 				make -C libft fclean
 				make -C mlx clean
-				rm -f $(NAME) libmlx.dylib
+				make -C minilibx_opengl clean
+				@rm -f $(NAME) libmlx.dylib libmlx.a
+				@echo cub3D deleted!
 
 re:				fclean all
 

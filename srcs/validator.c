@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 18:20:34 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/16 21:35:23 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:01:21 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,21 @@ void	check_zero(int i, int j, t_flags *flags, t_all *all)
 		(!flags->no && !flags->so && !flags->we && !flags->ea &&
 						all->map[i][j] == 'E' && (flags->ea = 1)))
 	{
-		(all->map[i - 1][j - 1] == ' ' || all->map[i - 1][j] == ' ' ||
-		all->map[i - 1][j + 1] == ' ' || all->map[i][j - 1] == ' ' ||
-		all->map[i][j + 1] == ' ' || all->map[i + 1][j - 1] == ' ' ||
-		all->map[i + 1][j] == ' ' || all->map[i + 1][j + 1] == ' ') ?
+		(j > (int)ft_strlen(all->map[i - 1]) || j > (int)ft_strlen(all->map[i + 1])) ? error("Invalid map!") : 0;
+		!ft_strchr("012NSWE", all->map[i - 1][j - 1]) ||
+		!ft_strchr("012NSWE", all->map[i - 1][j]) ||
+		!ft_strchr("012NSWE", all->map[i - 1][j + 1]) ||
+		!ft_strchr("012NSWE", all->map[i][j - 1]) ||
+		!ft_strchr("012NSWE", all->map[i][j + 1]) ||
+		!ft_strchr("012NSWE", all->map[i + 1][j - 1]) ||
+		!ft_strchr("012NSWE", all->map[i + 1][j]) ||
+		!ft_strchr("012NSWE", all->map[i + 1][j + 1]) ||
+		all->map[i - 1][j + 1] == '\0' || all->map[i + 1][j + 1] == '\0' ?
 											error("Invalid map!") : 0;
 		all->map[i][j] == '2' ? all->rc.sprts_count++ : 0;
 	}
-	else if (all->map[i][j] != '1' && all->map[i][j] != '2' && all->map[i][j]
-		!= '0' && all->map[i][j] != ' ')
-		error("Invalid map!");
+	else if (all->map[i][j] != '1' && all->map[i][j] != ' ')
+		error("Wrong char!");
 }
 
 void	inside_check(int i, t_flags *flags, t_all *all)
@@ -66,9 +71,10 @@ void	validator(int len, t_all *all)
 			while (all->map[i][++j])
 			{
 				if (!(all->map[i][j] == '1' || all->map[i][j] == ' '))
+				{
+					(all->map[i][j] == '0') ? error("Map is not closed!") :
 					error("Wrong symbol on the map!");
-				else if (all->map[i][j] == '0')
-					error("Map is not closed!");
+				}
 			}
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 17:06:23 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/18 21:45:52 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/03/13 16:33:22 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB_H
 
 # include "../mlx/mlx.h"
+# include "../minilibx_opengl/mlx.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <math.h>
@@ -59,6 +60,11 @@ typedef struct		s_img {
 	int				endian;
 }					t_img;
 
+typedef struct		s_txr_res {
+	int				txr_width;
+	int				txr_height;
+}					t_txr_res;
+
 typedef struct		s_raycast {
 	double			p_x;
 	double			p_y;
@@ -90,8 +96,6 @@ typedef struct		s_raycast {
 	double			wall_x;
 	int				txr_x;
 	int				txr_y;
-	int				txr_width;
-	int				txr_height;
 	double			tex_pos;
 	double			scale;
 	int				sprts_count;
@@ -101,6 +105,8 @@ typedef struct		s_raycast {
 	double			trnfrm_x;
 	double			trnfrm_y;
 	int				spr_scr_x;
+	int				txr_width;
+	int				txr_height;
 	int				spr_height;
 	int				sprite_width;
 	int				draw_start_y;
@@ -110,6 +116,8 @@ typedef struct		s_raycast {
 	int				stripe;
 	int				tex_x;
 	int				tex_y;
+	t_txr_res		res[5];
+
 }					t_raycast;
 
 typedef struct		s_sprt {
@@ -134,6 +142,8 @@ typedef struct		s_scrnsht {
 }					t_scrsht;
 
 typedef struct		s_all {
+	int				res0_w;
+	int				res0_h;
 	void			*mlx;
 	void			*win;
 	int				res_w;
@@ -143,12 +153,13 @@ typedef struct		s_all {
 	char			*line;
 	int				sprt_w;
 	int				sprt_h;
+	int				len;
 	t_img			img;
 	t_texture		txrs;
 	t_flags			cflag;
 	t_raycast		rc;
 	t_key_flags		flag;
-	t_img			txr[4];
+	t_img			txr[5];
 	t_scrsht		scrsht;
 }					t_all;
 
@@ -160,6 +171,7 @@ void				pars_we(t_all *all);
 void				pars_ea(t_all *all);
 void				pars_floor_n_ceilling(t_all *all);
 int					color_check(char **color);
+void				check_space(t_all *all);
 void				open_map(int fd, t_list **head);
 void				error(char *error);
 void				validator(int len, t_all *all);

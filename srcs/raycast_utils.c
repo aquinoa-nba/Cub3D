@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 13:15:21 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/18 15:51:34 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:13:44 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void	where_ray_hit_wall(t_all *all)
 		all->rc.wall_x = all->rc.p_x + all->rc.perp_len * all->rc.r_dir_x;
 	all->rc.wall_x -= floor((all->rc.wall_x));
 	all->rc.txr_x = (all->rc.wall_x * (all->rc.txr_width));
-	all->rc.txr_x = all->rc.txr_width - all->rc.txr_x - 1;
+	(all->rc.side == 0 && all->rc.r_dir_x > 0) ||
+		(all->rc.side == 1 && all->rc.r_dir_y < 0) ?
+			all->rc.txr_x = all->rc.txr_width - all->rc.txr_x - 1 : 0;
 	all->rc.scale = 1.0 * all->rc.txr_height / all->rc.wall_height;
 	all->rc.tex_pos = (all->rc.wall_top - all->res_h / 2
 								+ all->rc.wall_height / 2) * all->rc.scale;

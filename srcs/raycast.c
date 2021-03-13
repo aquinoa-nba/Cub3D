@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:48:56 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/18 18:19:04 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:20:09 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,32 @@ void	get_texture(t_all *all)
 	if (all->rc.side == 0)
 	{
 		if (all->rc.step_x > 0)
-			all->color = get_color(&all->txr[0], all->rc.txr_x, all->rc.txr_y);
-		else
+		{
+			all->rc.txr_width = all->rc.res[1].txr_width;
+			all->rc.txr_height = all->rc.res[1].txr_height;
 			all->color = get_color(&all->txr[1], all->rc.txr_x, all->rc.txr_y);
+		}
+		else
+		{
+			all->rc.txr_width = all->rc.res[0].txr_width;
+			all->rc.txr_height = all->rc.res[0].txr_height;
+			all->color = get_color(&all->txr[0], all->rc.txr_x, all->rc.txr_y);
+		}
 	}
 	else
 	{
 		if (all->rc.step_y > 0)
-			all->color = get_color(&all->txr[2], all->rc.txr_x, all->rc.txr_y);
-		else
+		{
 			all->color = get_color(&all->txr[3], all->rc.txr_x, all->rc.txr_y);
+			all->rc.txr_width = all->rc.res[3].txr_width;
+			all->rc.txr_height = all->rc.res[3].txr_height;
+		}
+		else
+		{
+			all->rc.txr_width = all->rc.res[2].txr_width;
+			all->rc.txr_height = all->rc.res[2].txr_height;
+			all->color = get_color(&all->txr[2], all->rc.txr_x, all->rc.txr_y);
+		}
 	}
 }
 
@@ -87,9 +103,6 @@ int		raycast(t_all *all)
 		draw(x, all);
 		perp_buf[x] = all->rc.perp_len;
 	}
-	mlx_hook(all->win, 2, 0, key_press, all);
-	mlx_hook(all->win, 3, 0, key_unpress, all);
-	mlx_hook(all->win, 17, 0, close_window, all);
 	sprites(all, perp_buf);
 	mlx_put_image_to_window(all->mlx, all->win, all->img.img, 0, 0);
 	mlx_string_put(all->mlx, all->win, all->res_w / 2,

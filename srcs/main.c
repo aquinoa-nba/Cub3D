@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 13:04:22 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/18 12:44:56 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:21:51 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,27 @@
 
 void	init_texture(t_all *all)
 {
-	all->txr[0].img = mlx_xpm_file_to_image(all->mlx, all->txrs.no,
-								&all->rc.txr_width, &all->rc.txr_height);
+	(all->txr[0].img = mlx_xpm_file_to_image(all->mlx, all->txrs.no,
+								&all->rc.res[0].txr_width, &all->rc.res[0].txr_height)) ?
 	all->txr[0].addr = mlx_get_data_addr(all->txr[0].img, &all->txr[0].bpp,
-								&all->txr[0].line_len, &all->txr[0].endian);
-	all->txr[1].img = mlx_xpm_file_to_image(all->mlx, all->txrs.so,
-								&all->rc.txr_width, &all->rc.txr_height);
+	&all->txr[0].line_len, &all->txr[0].endian) : error("Wrong NO texture!");
+	(all->txr[1].img = mlx_xpm_file_to_image(all->mlx, all->txrs.so,
+								&all->rc.res[1].txr_width, &all->rc.res[1].txr_height)) ?
 	all->txr[1].addr = mlx_get_data_addr(all->txr[1].img, &all->txr[1].bpp,
-								&all->txr[1].line_len, &all->txr[1].endian);
-	all->txr[2].img = mlx_xpm_file_to_image(all->mlx, all->txrs.we,
-								&all->rc.txr_width, &all->rc.txr_height);
+	&all->txr[1].line_len, &all->txr[1].endian) : error("Wrong SO texture!");
+	(all->txr[2].img = mlx_xpm_file_to_image(all->mlx, all->txrs.we,
+								&all->rc.res[2].txr_width, &all->rc.res[2].txr_height)) ?
 	all->txr[2].addr = mlx_get_data_addr(all->txr[2].img, &all->txr[2].bpp,
-								&all->txr[2].line_len, &all->txr[2].endian);
-	all->txr[3].img = mlx_xpm_file_to_image(all->mlx, all->txrs.ea,
-								&all->rc.txr_width, &all->rc.txr_height);
+	&all->txr[2].line_len, &all->txr[2].endian) : error("Wrong WE texture!");
+	(all->txr[3].img = mlx_xpm_file_to_image(all->mlx, all->txrs.ea,
+								&all->rc.res[3].txr_width, &all->rc.res[3].txr_height)) ?
 	all->txr[3].addr = mlx_get_data_addr(all->txr[3].img, &all->txr[3].bpp,
-								&all->txr[3].line_len, &all->txr[3].endian);
+	&all->txr[3].line_len, &all->txr[3].endian) : error("Wrong EA texture!");
+	(all->txr[4].img = mlx_xpm_file_to_image(all->mlx, all->txrs.spr,
+								&all->sprt_w, &all->sprt_h)) ?
+	all->txr[4].addr = mlx_get_data_addr(all->txr[4].img, &all->txr[4].bpp,
+	&all->txr[4].line_len, &all->txr[4].endian) :
+						error("Wrong Sprite texture!");
 }
 
 void	orientation(int i, int j, t_all *all)
@@ -117,6 +122,9 @@ int		main(int argc, char **argv)
 		check_save(argv[2], all);
 	all->rc.move_speed = 0.05;
 	all->rc.rot_speed = 0.035;
+	mlx_hook(all->win, 2, 0, key_press, all);
+	mlx_hook(all->win, 3, 0, key_unpress, all);
+	mlx_hook(all->win, 17, 0, close_window, all);
 	mlx_loop_hook(all->mlx, raycast, all);
 	mlx_loop(all->mlx);
 }

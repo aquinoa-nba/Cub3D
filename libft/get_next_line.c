@@ -6,17 +6,17 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 18:00:54 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/01/21 17:19:37 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/02/21 20:54:25 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 1
 #endif
 
-char	*find_tail(char **line, char **tail)
+int		find_tail(char **line, char **tail)
 {
 	char	*n;
 
@@ -27,7 +27,8 @@ char	*find_tail(char **line, char **tail)
 		{
 			*n = '\0';
 			*line = *tail;
-			*tail = ft_strdup(++n);
+			if (!(*tail = ft_strdup(++n)))
+				return (-1);
 		}
 		else
 		{
@@ -36,8 +37,11 @@ char	*find_tail(char **line, char **tail)
 		}
 	}
 	else
-		*line = ft_strdup("");
-	return (n);
+	{
+		if (!(*line = ft_strdup("")))
+			return (-1);
+	}
+	return (!n ? 0 : 1);
 }
 
 int		read_file(int fd, char **line, char **tail)
@@ -71,15 +75,16 @@ int		get_next_line(int fd, char **line)
 {
 	static char		*tail;
 	int				get;
+	int				err;
 
 	get = 0;
-	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1 || !line)
+	if (BUFFER_SIZE <= 0 || !line || read(fd, NULL, 0) == -1)
 		return (-1);
-	if (!(find_tail(line, &tail)))
+	if (!(err = find_tail(line, &tail)))
 		get = read_file(fd, line, &tail);
 	if (!get && !tail)
 		return (0);
-	if (get == -1)
+	if (get == -1 || err == -1)
 		return (-1);
 	return (1);
 }

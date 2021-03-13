@@ -6,7 +6,7 @@
 /*   By: aquinoa <aquinoa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 00:07:24 by aquinoa           #+#    #+#             */
-/*   Updated: 2021/02/18 12:44:29 by aquinoa          ###   ########.fr       */
+/*   Updated: 2021/03/13 17:22:32 by aquinoa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,15 @@ void	open_map(int fd, t_list **head)
 	{
 		if (*line)
 		{
-			new = ft_lstnew(line);
-			!new->content ? error("Memory error!") : 0;
+			!(new = ft_lstnew(line)) ? error("Memory error!") : 0;
 			ft_lstadd_back(head, new);
 		}
 		else
 			error("Invalid map!");
 	}
+	!*line ? error("Empty line after map!") : 0;
 	gnl == -1 ? error("Map reading error!!") : 0;
-	new = ft_lstnew(line);
-	!new->content ? error("Memory error!") : 0;
+	!(new = ft_lstnew(line)) ? error("Memory error!") : 0;
 	ft_lstadd_back(head, new);
 	close(fd);
 }
@@ -50,8 +49,8 @@ int		color_check(char **color)
 	i = 0;
 	while (i < 3)
 	{
-		if (ft_atoi(color[i]) < 0 || ft_atoi(color[i]) > 255 ||
-						!ft_isdigit_str(color[i]))
+		if (ft_strlen(color[i]) > 3 || ft_atoi(color[i]) < 0 ||
+		ft_atoi(color[i]) > 255 || !ft_isdigit_str(color[i]))
 			return (0);
 		i++;
 	}
@@ -62,6 +61,8 @@ void	check_save(char *arg, t_all *all)
 {
 	int		fd;
 
+	all->res_w = all->res0_w;
+	all->res_h = all->res0_h;
 	ft_strrncmp(arg, "--save", 6) || ft_strlen(arg) != 6 ?
 				error("Invalid argument for screenshot!") : 0;
 	fd = open("screenshot.bmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
